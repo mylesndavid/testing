@@ -1,44 +1,60 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
-
-import Colors from "@/constants/colors";
-
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { Tabs } from "expo-router";
+import { Home, BookOpen, Users, Award, User } from "lucide-react-native";
+import { useThemeStore } from "@/store/theme-store";
 
 export default function TabLayout() {
+  const { colors } = useThemeStore();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors.light.tint,
-        headerShown: true,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.secondaryText,
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopColor: colors.border,
+        },
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        headerTintColor: colors.text,
+        headerShadowVisible: false,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors.light.text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: "Home",
+          tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="my-books"
+        options={{
+          title: "My Books",
+          tabBarIcon: ({ color, size }) => <BookOpen size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="book-clubs"
+        options={{
+          title: "Book Clubs",
+          tabBarIcon: ({ color, size }) => <Users size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="challenges"
+        options={{
+          title: "Challenges",
+          tabBarIcon: ({ color, size }) => <Award size={size} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />
     </Tabs>
